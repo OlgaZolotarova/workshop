@@ -35,5 +35,10 @@
   		<artifactId>mysql-connector-java</artifactId>
   		<version>5.1.35</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.springmodules</groupId>
+  		<artifactId>spring-modules-validation</artifactId>
+  		<version>0.8a</version>
+  	</dependency>
   </dependencies>
 </project>

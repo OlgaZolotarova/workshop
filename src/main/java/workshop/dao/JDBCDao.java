@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 import workshop.model.Adres;
 import workshop.model.Klant;
 
@@ -98,12 +96,10 @@ public class JDBCDao implements KlantDAO {
                 klant.getAdres().setWoonplaats(results.getString("woonplaats"));
                 list.add(klant);
             }
-            
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        
         return list;
     }
     

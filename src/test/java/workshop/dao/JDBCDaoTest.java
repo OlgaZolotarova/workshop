@@ -213,11 +213,69 @@ public class JDBCDaoTest {
     @Test
     public void testFindByField() throws SQLException {
         createTestUsers();
-        Klant klant = new Klant();
-        klant.setAchternaam("Johnes");
-        
+//        'Samuel', 'Johnes', 'de', 'samuel@email.com', '1234FD','45','Street','London','c';  
+        {            
+            Klant klant = new Klant();
+            klant.setAchternaam("Johnes");        
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            klant.setVoornaam("Samuel");        
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            klant.setTussenvoegsel("de");        
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            Adres adres = new Adres();
+            klant.setAdres(adres);
+            adres.setEmail("samuel@email.com");
+            findAndAssert(klant);
+        }
+
+        {            
+            Klant klant = new Klant();
+            Adres adres = new Adres();
+            klant.setAdres(adres);
+            adres.setHuisnummer(45);
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            Adres adres = new Adres();
+            klant.setAdres(adres);
+            adres.setPostcode("1234FD");
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            Adres adres = new Adres();
+            klant.setAdres(adres);
+            adres.setStraatnaam("Street");
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            Adres adres = new Adres();
+            klant.setAdres(adres);
+            adres.setToevoeging("c");
+            findAndAssert(klant);
+        }
+        {            
+            Klant klant = new Klant();
+            Adres adres = new Adres();
+            klant.setAdres(adres);
+            adres.setWoonplaats("London");
+            findAndAssert(klant);
+        }
+    }
+
+    private void findAndAssert(Klant klant) {
         List<Klant> results = dao.find(klant);
-        
         assertNotNull("result is null",results);
         assertEquals(1, results.size());
         assertEquals(Integer.valueOf(3), results.get(0).getKlantId());
