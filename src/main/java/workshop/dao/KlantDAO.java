@@ -44,4 +44,6 @@ public interface KlantDAO {
      */
     boolean delete(Klant k);
     
+    Klant get(int id);
+    
 }

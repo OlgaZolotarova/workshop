@@ -77,9 +77,14 @@ public class JDBCDao implements KlantDAO {
             addCriterion(adres.getWoonplaats(), "woonplaats", sql);
         }
         
+        ArrayList<Klant> list = fetchClients(sql.toString());
+        return list;
+    }
+
+    private ArrayList<Klant> fetchClients(String sql) {
         ArrayList<Klant> list = new ArrayList<>();
         try (Statement s = connection.createStatement()) {
-            ResultSet results = s.executeQuery(sql.toString());
+            ResultSet results = s.executeQuery(sql);
             while (results.next()) {
                 Klant klant = new Klant();
                 klant.setAdres(new Adres());
@@ -161,4 +166,11 @@ public class JDBCDao implements KlantDAO {
         
     }
     
+    public Klant get(int id) {
+        String sql = "select * from klant where klant_id = " + id;
+        ArrayList<Klant> list = fetchClients(sql);
+        
+      return list.isEmpty()?null:list.get(0);  
+        
+    }
 }
