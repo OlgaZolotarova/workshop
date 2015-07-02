@@ -37,6 +37,7 @@ public class ClientTableViewController {
     }
     
     private final ObservableList<Klant> clientsList = FXCollections.observableArrayList();
+    
     @FXML
     private TableView<Klant> table;
     
@@ -71,7 +72,6 @@ public class ClientTableViewController {
     
     public ClientTableViewController(MainApp mainApp) {
         this.mainApp = mainApp;
-        
     }
     
     @FXML
@@ -79,24 +79,22 @@ public class ClientTableViewController {
         voornaamColumn.setCellValueFactory(new PropertyValueFactory<>("voornaam"));
         achternaamColumn.setCellValueFactory(new PropertyValueFactory<>("achternaam"));
         tussenvoegselColumn.setCellValueFactory(new PropertyValueFactory<>("tussenvoegsel"));
-        emailColumn.setCellValueFactory(adresProperty("email"));
-        postcodeColumn.setCellValueFactory(adresProperty("postcode"));
-        huisnummerColumn.setCellValueFactory(adresProperty("huisnummer"));
-        toevoegingColumn.setCellValueFactory(adresProperty("toevoeging"));
-        straatnaamColumn.setCellValueFactory(adresProperty("straatnaam"));
-        woonplaatsColumn.setCellValueFactory(adresProperty("woonplaats"));
+        emailColumn.setCellValueFactory(new AdresPropertyRetriever<>("email"));
+        postcodeColumn.setCellValueFactory(new AdresPropertyRetriever<>("postcode"));
+        huisnummerColumn.setCellValueFactory(new AdresPropertyRetriever<>("huisnummer"));
+        toevoegingColumn.setCellValueFactory(new AdresPropertyRetriever<>("toevoeging"));
+        straatnaamColumn.setCellValueFactory(new AdresPropertyRetriever<>("straatnaam"));
+        woonplaatsColumn.setCellValueFactory(new AdresPropertyRetriever<>("woonplaats"));
         
         table.setItems(clientsList);
-        clientsList.clear();
+
         Klant klant = new Klant();
         reloadClients(klant);
     }
     
-    private <T> Callback<CellDataFeatures<Klant, T>, ObservableValue<T>> adresProperty(String adresProperty) {
-        return new AdresPropertyRetriever<T>(adresProperty);
-    }
     
     private void reloadClients(Klant filter) {
+        clientsList.clear();
         List<Klant> list = mainApp.getClientService().search(filter);
         clientsList.addAll(list);
     }

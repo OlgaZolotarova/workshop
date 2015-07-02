@@ -37,17 +37,17 @@ public class JDBCDao implements KlantDAO {
             if (k.getAdres() != null) {
                 s.executeUpdate(
                         "insert into klant (voornaam, achternaam, tussenvoegsel,email, postcode, huisnummer, "
-                                + "toevoeging, straatnaam, woonplaats) values (" + maskNull(k.getVoornaam()) + ","
-                                + maskNull(k.getAchternaam()) + "," + maskNull(k.getTussenvoegsel()) + ","
-                                + maskNull(k.getAdres().getEmail()) + "," + maskNull(k.getAdres().getPostcode()) + ","
-                                + maskNull(k.getAdres().getHuisnummer()) + "," + maskNull(k.getAdres().getToevoeging())
-                                + "," + maskNull(k.getAdres().getStraatnaam()) + ","
-                                + maskNull(k.getAdres().getWoonplaats()) + ")", Statement.RETURN_GENERATED_KEYS);
+                                + "toevoeging, straatnaam, woonplaats) values (" + wrapInBrackets(k.getVoornaam()) + ","
+                                + wrapInBrackets(k.getAchternaam()) + "," + wrapInBrackets(k.getTussenvoegsel()) + ","
+                                + wrapInBrackets(k.getAdres().getEmail()) + "," + wrapInBrackets(k.getAdres().getPostcode()) + ","
+                                + wrapInBrackets(k.getAdres().getHuisnummer()) + "," + wrapInBrackets(k.getAdres().getToevoeging())
+                                + "," + wrapInBrackets(k.getAdres().getStraatnaam()) + ","
+                                + wrapInBrackets(k.getAdres().getWoonplaats()) + ")", Statement.RETURN_GENERATED_KEYS);
             }
             else {
                 s.executeUpdate(
-                        "insert into klant (voornaam, achternaam, tussenvoegsel) values (" + maskNull(k.getVoornaam())
-                                + "," + maskNull(k.getAchternaam()) + "," + maskNull(k.getTussenvoegsel()) + ")",
+                        "insert into klant (voornaam, achternaam, tussenvoegsel) values (" + wrapInBrackets(k.getVoornaam())
+                                + "," + wrapInBrackets(k.getAchternaam()) + "," + wrapInBrackets(k.getTussenvoegsel()) + ")",
                         Statement.RETURN_GENERATED_KEYS);
             }
             ResultSet keys = s.getGeneratedKeys();
@@ -119,18 +119,18 @@ public class JDBCDao implements KlantDAO {
             throw new IllegalArgumentException("Client must have id.");
         try (Statement s = connection.createStatement()) {
             if (k.getAdres() != null) {
-                s.executeUpdate("update klant set voornaam = " + maskNull(k.getVoornaam()) + ", achternaam = "
-                        + maskNull(k.getAchternaam()) + ", tussenvoegsel = " + maskNull(k.getTussenvoegsel())
-                        + ", email = " + maskNull(k.getAdres().getEmail()) + ", postcode = "
-                        + maskNull(k.getAdres().getPostcode()) + ", huisnummer = "
-                        + maskNull(k.getAdres().getHuisnummer()) + ", toevoeging = "
-                        + maskNull(k.getAdres().getToevoeging()) + ", woonplaats = "
-                        + maskNull(k.getAdres().getWoonplaats()) + ", straatnaam = "
-                        + maskNull(k.getAdres().getStraatnaam()) + " where klant_id = " + k.getKlantId());
+                s.executeUpdate("update klant set voornaam = " + wrapInBrackets(k.getVoornaam()) + ", achternaam = "
+                        + wrapInBrackets(k.getAchternaam()) + ", tussenvoegsel = " + wrapInBrackets(k.getTussenvoegsel())
+                        + ", email = " + wrapInBrackets(k.getAdres().getEmail()) + ", postcode = "
+                        + wrapInBrackets(k.getAdres().getPostcode()) + ", huisnummer = "
+                        + wrapInBrackets(k.getAdres().getHuisnummer()) + ", toevoeging = "
+                        + wrapInBrackets(k.getAdres().getToevoeging()) + ", woonplaats = "
+                        + wrapInBrackets(k.getAdres().getWoonplaats()) + ", straatnaam = "
+                        + wrapInBrackets(k.getAdres().getStraatnaam()) + " where klant_id = " + k.getKlantId());
             }
             else {
-                s.executeUpdate("update klant set voornaam = " + maskNull(k.getVoornaam()) + ", achternaam = "
-                        + maskNull(k.getAchternaam()) + ", tussenvoegsel = " + maskNull(k.getTussenvoegsel())
+                s.executeUpdate("update klant set voornaam = " + wrapInBrackets(k.getVoornaam()) + ", achternaam = "
+                        + wrapInBrackets(k.getAchternaam()) + ", tussenvoegsel = " + wrapInBrackets(k.getTussenvoegsel())
                         + " where klant_id = " + k.getKlantId());
             }
         }
@@ -139,7 +139,7 @@ public class JDBCDao implements KlantDAO {
         }
     }
     
-    private String maskNull(Object value) {
+    private String wrapInBrackets(Object value) {
         
         return value == null ? "null" : "'" + value + "'";
     }
